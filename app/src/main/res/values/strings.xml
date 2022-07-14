@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">Shortly</string>
+    <string name="app_title" translatable="false">Shortly</string>
+    <string name="error_loading">Error loading the data. Please check if the device has internet connection</string>
+    <string name="error_empty">Please add a link here…</string>
+    <string name="retry">Retry</string>
+    <string name="let_s_get_started">Let\'s get started!</string>
+    <string name="shorten_a_link_here">Shorten a link here…</string>
+    <string name="shorten_it">Shorten it!</string>
+    <string name="paste_your_link">Paste your first link into the field to shorten it</string>
+    <string name="url_copy">copy</string>
+</resources>
