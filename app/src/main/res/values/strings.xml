@@ -10,4 +10,5 @@
     <string name="paste_your_link">Paste your first link into the field to shorten it</string>
     <string name="url_copy">copy</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="error_url_invalid">That is not a valid URL, please check it.</string>
 </resources>

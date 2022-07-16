@@ -4,10 +4,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,6 +32,8 @@ import com.mobilekosmos.android.shortly.databinding.FragmentMainBinding
 import com.mobilekosmos.android.shortly.ui.model.MyViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import java.net.MalformedURLException
+import java.net.URL
 
 
 class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemClickListener {
@@ -171,9 +175,21 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
         if (inputView.text.isNullOrEmpty()) {
             inputView.clearFocus()
             inputViewParent.error = getString(R.string.error_empty)
+        } else if (!isValidUrl(inputView.text.toString())){
+            inputView.clearFocus()
+            inputViewParent.error = getString(R.string.error_url_invalid)
         } else {
             viewModel.fetchShorterURL(inputView.text.toString())
         }
+    }
+
+    private fun isValidUrl(urlString: String): Boolean {
+        try {
+            URL(urlString)
+            return URLUtil.isValidUrl(urlString) && Patterns.WEB_URL.matcher(urlString).matches()
+        } catch (ignored: MalformedURLException) {
+        }
+        return false
     }
 
     /**
