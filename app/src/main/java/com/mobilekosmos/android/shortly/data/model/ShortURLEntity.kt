@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.mobilekosmos.android.shortly.data.db
+package com.mobilekosmos.android.shortly.data.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
@@ -24,8 +23,7 @@ import com.squareup.moshi.Json
 @Entity(tableName = "short_urls")
 data class ShortURLEntity(
 //    @PrimaryKey @ColumnInfo(name = "id") val original_link: String,
-//    val full_short_link: String,
-
+//    @PrimaryKey(autoGenerate = true) val uniqueId : Int,
     @PrimaryKey @field:Json(name = "code") val code: String,
     @field:Json(name = "short_link") val short_link: String,
     @field:Json(name = "full_short_link") val full_short_link: String,

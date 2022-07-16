@@ -130,33 +130,6 @@ package com.mobilekosmos.android.shortly.ui
 //        }
 //    }
 //
-//    /**
-//     * Method for displaying a Toast after the list was sorted using the toggle filter menu.
-//     */
-//    private fun showSortedListToast(sortingMode: ClubsViewModelFlow.SortingMode) {
-//        context?.let {
-//            when (sortingMode) {
-//                ClubsViewModelFlow.SortingMode.SORT_BY_NAME_ASCENDING -> showSortedListToast(
-//                        it.getString(
-//                                R.string.event_sorted_by_name
-//                        )
-//                )
-//                ClubsViewModelFlow.SortingMode.SORT_BY_VALUE_DESCENDING -> showSortedListToast(
-//                        it.getString(
-//                                R.string.event_sort_by_value
-//                        )
-//                )
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Method for displaying a Toast after the list was sorted using the toggle filter menu.
-//     */
-//    private fun showSortedListToast(toastMessage: String) {
-//        Log.d("+++", "toastMessage: $toastMessage")
-//        Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show()
-//    }
 //
 //    override fun onClubClick(clubObject: ClubEntity, clubImageView: ImageView) {
 //        // Note: using this instead of "old" navigation method the ripple effect is not visible, maybe bug or works as designed, not sure.

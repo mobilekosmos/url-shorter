@@ -2,10 +2,14 @@ package com.mobilekosmos.android.shortly.ui.model
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.mobilekosmos.android.shortly.data.db.ShortURLEntity
+import com.mobilekosmos.android.shortly.data.model.ApiResponseErrorRoot
+import com.mobilekosmos.android.shortly.data.model.ShortURLEntity
 import com.mobilekosmos.android.shortly.data.repository.URLsRepository
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 
 //class ClubsViewModelFlow : ViewModel() {
 class MyViewModel @OptIn(ExperimentalCoroutinesApi::class)
@@ -29,11 +33,8 @@ internal constructor(
 //    val shorts: LiveData<List<ShortEntity>>
 //        get() = _shorts
 
-    /**
-     * A list of plants that updates based on the current filter.
-     */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val shorts: LiveData<List<ShortURLEntity>> = urLsRepository.shortsFlow.asLiveData()
+    val urls: LiveData<List<ShortURLEntity>> = urLsRepository.urlsFlow.asLiveData()
 
     /**
      * Event triggered for network error. This is private to avoid exposing a
@@ -65,6 +66,13 @@ internal constructor(
         get() = _isNetworkErrorShown
 
     /**
+     * Event triggered for network error. Views should use this to get access
+     * to the data.
+     */
+    // TODO: don't share mutableLiveData to public.
+    var shortenURLError: MutableLiveData<String> = MutableLiveData(null)
+
+    /**
      * Fetches data using Retrofit which is configured to cache the response for a short period of time.
      * (Good solution for simple requests and responses, infrequent network calls, or small datasets.)
      */
@@ -79,13 +87,26 @@ internal constructor(
 
                 // To avoid saving the resulting array in a variable we work with the retrofit response instead.
                 // TODO: Ideally we shouldn't know anything about Retrofit here, but just for simplicity we do. There is a todo in the retrofit api class to address this.
-                val apiResponse = urLsRepository.urlToShorten("https://www.google.com")
+                val apiResponse = urLsRepository.shortenURL(urlToShorten)
                 val shortenedURL = apiResponse.body()
                 if (apiResponse.isSuccessful && shortenedURL != null) {
                     // Do nothing.
                     Log.d("+++", "url: $shortenedURL")
-                } else {
-                    // TODO: handle error
+                } else if (apiResponse.errorBody() != null) {
+                    val response = apiResponse.errorBody()?.getApiError()
+                    Log.d("+++", "apiResponse.errorBody()")
+                    if (response == null) {
+                        shortenURLError.value = "Unexpected error occurred"
+                    } else {
+                        when (response.error_code) {
+                            // TODO: improve error handling.
+                            3 -> {
+                                Log.d("+++", "API limit reached, will retry")
+                                fetchShorterURL(urlToShorten)
+                            }
+                            else -> shortenURLError.value = response.error
+                        }
+                    }
                 }
                 // viewModelScope uses the MainThread Dispatcher by default so we don't need to use "withContext(Dispatchers.Main)"
                 // to access the UI.
@@ -96,11 +117,28 @@ internal constructor(
         }
     }
 
-    fun retryLoadingData() {
-//        fetchShorterURLFromRepository()
+    private fun ResponseBody.getApiError(): ApiResponseErrorRoot? {
+        return try {
+            Moshi
+                .Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+                .adapter(ApiResponseErrorRoot::class.java)
+                .fromJson(string())
+        } catch (e: Exception) {
+            Log.e("+++", "Exception: $e")
+            null
+        }
     }
 
     fun fetchShorterURL(urlToShorten: String) {
         fetchShorterURLFromRepository(urlToShorten)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun removeFromHistory(urlEntity: ShortURLEntity) {
+        viewModelScope.launch {
+            urLsRepository.removeURLFromHistory(urlEntity)
+        }
     }
 }

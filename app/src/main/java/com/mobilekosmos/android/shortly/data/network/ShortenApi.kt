@@ -1,7 +1,6 @@
 package com.mobilekosmos.android.shortly.data.network
 
-import com.mobilekosmos.android.shortly.data.db.ShortURLEntity
-import com.mobilekosmos.android.shortly.data.db.ShortURLEntityRoot
+import com.mobilekosmos.android.shortly.data.model.ShortURLEntityRoot
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient

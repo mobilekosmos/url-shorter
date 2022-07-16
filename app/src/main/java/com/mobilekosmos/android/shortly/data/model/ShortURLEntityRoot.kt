@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mobilekosmos.android.shortly.data.db
+package com.mobilekosmos.android.shortly.data.model
 
 import com.squareup.moshi.Json
 
