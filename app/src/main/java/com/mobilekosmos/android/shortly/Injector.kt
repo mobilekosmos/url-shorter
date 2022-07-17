@@ -1,15 +1,13 @@
-package com.mobilekosmos.android.shortly.data.repository
+package com.mobilekosmos.android.shortly
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.mobilekosmos.android.shortly.data.db.AppDatabase
 import com.mobilekosmos.android.shortly.data.network.ShortenApi
+import com.mobilekosmos.android.shortly.data.repository.URLsRepository
 import com.mobilekosmos.android.shortly.ui.MainFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
 interface ViewModelFactoryProvider {
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     fun provideMyViewModelFactory(context: Context): MainFragment.MyViewModelFactory
 }
 
@@ -17,7 +15,6 @@ val Injector: ViewModelFactoryProvider
     get() = currentInjector
 
 private object DefaultViewModelProvider: ViewModelFactoryProvider {
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun getUrlRepository(context: Context): URLsRepository {
         return URLsRepository.getInstance(
             urlDao(context),
@@ -30,8 +27,6 @@ private object DefaultViewModelProvider: ViewModelFactoryProvider {
     private fun urlDao(context: Context) =
         AppDatabase.getInstance(context.applicationContext).urlDao()
 
-    @OptIn(FlowPreview::class)
-    @ExperimentalCoroutinesApi
     override fun provideMyViewModelFactory(context: Context): MainFragment.MyViewModelFactory {
         val repository = getUrlRepository(context)
         return MainFragment.MyViewModelFactory(repository)

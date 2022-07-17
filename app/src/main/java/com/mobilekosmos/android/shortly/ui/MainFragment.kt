@@ -24,14 +24,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.mobilekosmos.android.shortly.Injector
 import com.mobilekosmos.android.shortly.R
 import com.mobilekosmos.android.shortly.data.model.ShortURLEntity
-import com.mobilekosmos.android.shortly.data.repository.Injector
 import com.mobilekosmos.android.shortly.data.repository.URLsRepository
 import com.mobilekosmos.android.shortly.databinding.FragmentMainBinding
 import com.mobilekosmos.android.shortly.ui.model.MyViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -41,7 +39,6 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
     private lateinit var clubsListAdapter: ListAdapter
     private lateinit var binding: FragmentMainBinding
 
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private val viewModel: MyViewModel by viewModels {
         Injector.provideMyViewModelFactory(requireContext())
     }
@@ -194,11 +191,7 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
 
     /**
      * Factory for creating a [MyViewModel] with a constructor that takes a [URLsRepository].
-     *
-     * The @ExperimentalCoroutinesApi and @FlowPreview indicate that experimental APIs are being used.
      */
-    @ExperimentalCoroutinesApi
-    @FlowPreview
     class MyViewModelFactory(
         private val repository: URLsRepository
     ) : ViewModelProvider.NewInstanceFactory() {

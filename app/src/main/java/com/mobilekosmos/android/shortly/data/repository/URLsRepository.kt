@@ -7,14 +7,12 @@ import com.mobilekosmos.android.shortly.data.model.ShortURLEntityRoot
 import com.mobilekosmos.android.shortly.data.network.ShortenApi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
 
-@ExperimentalCoroutinesApi
 class URLsRepository private constructor(
     private val urlDao: UrlDao,
     private val service: ShortenApi,
