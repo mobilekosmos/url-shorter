@@ -5,3 +5,6 @@ Small Android App showcasing the use of Kotlin, Retrofit2 consuming a REST API, 
 - No Jetpack compose for now.
 
 All written by me to simply demo my knowledge.
+
+![This is an image](/screenshots/main_welcome.png)
+![This is an image](/screenshots/main_screenshot.png)
