@@ -75,19 +75,6 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = clubsListAdapter
-            binding.root.context.let {
-                val dividerItemDecoration = MaterialDividerItemDecoration(
-                    it,
-                    MaterialDividerItemDecoration.VERTICAL
-                )
-                dividerItemDecoration.isLastItemDecorated = false
-
-                // https://github.com/material-components/material-components-android/blob/master/docs/components/Divider.md
-                // Needed if you did not set colorOnSurface in your theme -> default according to Material should be colorOnSurface (12% opacity applied automatically on top).
-                // dividerItemDecoration.setDividerColorResource(it, R.color.colorPrimary)
-
-                addItemDecoration(dividerItemDecoration)
-            }
         }
 
         activity?.setTitle(R.string.app_title)
@@ -97,7 +84,7 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.shortenButton) { v, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainInput) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view. Here the system is setting
             // only the bottom, left, and right dimensions, but apply whichever insets are
@@ -105,6 +92,8 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
             // if that's more appropriate.
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = insets.bottom
+                rightMargin = insets.right
+                leftMargin = insets.left
             }
 
             // Return CONSUMED if you don't want want the window insets to keep being
@@ -119,12 +108,31 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
             // if that's more appropriate.
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 topMargin = insets.top
+                rightMargin = insets.right
+                leftMargin = insets.left
             }
 
             // Return CONSUMED if you don't want want the window insets to keep being
             // passed down to descendant views.
             WindowInsetsCompat.CONSUMED
         }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainHeader) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply the insets as a margin to the view. Here the system is setting
+            // only the bottom, left, and right dimensions, but apply whichever insets are
+            // appropriate to your layout. You can also update the view padding
+            // if that's more appropriate.
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.top
+                rightMargin = insets.right
+                leftMargin = insets.left
+            }
+
+            // Return CONSUMED if you don't want want the window insets to keep being
+            // passed down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
+
 
         val inputViewParent = binding.shortenUrlParent
         val inputView = binding.shortenUrl

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="input_padding">16dp</dimen>
+    <!-- Maximum width of the content area (in percent) to use in single pane. -->
+    <dimen name="content_max_width_percent">1.0</dimen>
+</resources>

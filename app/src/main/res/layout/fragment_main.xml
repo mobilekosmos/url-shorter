@@ -5,7 +5,9 @@
     tools:context=".ui.MainFragment">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.mobilekosmos.android.shortly.ui.model.MyViewModel" />
@@ -18,15 +20,16 @@
 
         <FrameLayout
             android:id="@+id/main_urls_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:visibility="@{viewModel.urls.size == 0 ? View.GONE : View.VISIBLE}"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/main_input_container"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="@dimen/content_max_width_percent"
+            tools:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/loading_spinner"
@@ -65,22 +68,26 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
                 tools:listitem="@layout/li_url" />
         </FrameLayout>
 
         <ScrollView
             android:id="@+id/main_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="24dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:visibility="@{viewModel.urls.size == 0 ? View.VISIBLE : View.GONE}"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/main_input_container"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="@dimen/content_max_width_percent"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -138,50 +145,71 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_input_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="48dp"
-            android:paddingVertical="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/shorten_url_parent"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="#ffffff"
-                app:boxCornerRadiusBottomEnd="4dp"
-                app:boxCornerRadiusBottomStart="4dp"
-                app:boxCornerRadiusTopEnd="4dp"
-                app:boxCornerRadiusTopStart="4dp"
-                app:errorTextColor="#ffffff">
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/shorten_url"
+            <LinearLayout
+                android:id="@+id/main_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="48dp"
+                android:paddingVertical="@dimen/input_padding"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="@dimen/content_max_width_percent"
+                tools:ignore="UselessParent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/shorten_url_parent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:hint="@string/shorten_a_link_here"
-                    android:imeOptions="actionDone"
-                    android:inputType="textUri"
-                    android:maxLines="1"
-                    android:text="@string/URL"
-                    android:textColorHint="#616161"
-                    tools:ignore="TextContrastCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:boxBackgroundColor="#ffffff"
+                    app:boxCornerRadiusBottomEnd="4dp"
+                    app:boxCornerRadiusBottomStart="4dp"
+                    app:boxCornerRadiusTopEnd="4dp"
+                    app:boxCornerRadiusTopStart="4dp"
+                    app:errorTextColor="#ffffff">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/shorten_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/shorten_it" />
-        </LinearLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/shorten_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="@string/shorten_a_link_here"
+                        android:imeOptions="actionDone"
+                        android:inputType="textUri"
+                        android:maxLines="1"
+                        android:text="@string/URL"
+                        android:textColorHint="#616161"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/shorten_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/shorten_it" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
