@@ -84,6 +84,7 @@ class MainFragment : Fragment(R.layout.fragment_main), ListAdapter.OnListItemCli
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // TODO: on Samsung S9 with Android 10 insets are not working.
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainInput) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view. Here the system is setting
