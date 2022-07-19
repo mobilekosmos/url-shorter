@@ -11,7 +11,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("MainActivity onCreate")
+
+        // Logging twice just for testing purposes, this is a demo app!
+        Timber.d("onCreate")
         Log.d("MainActivity", "onCreate")
 
         // Applies edge-to-edge screen mode.
