@@ -2,7 +2,6 @@ package com.mobilekosmos.android.shortly.data.network
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.mobilekosmos.android.shortly.MyApplication
 
 
 class Utils() {
@@ -10,7 +9,7 @@ class Utils() {
         // TODO: replace deprecated code.
         fun isNetworkAvailable(context: Context): Boolean {
             val connectivityManager = context
-                ?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val netInfo = connectivityManager.activeNetworkInfo
             return netInfo != null && netInfo.isConnectedOrConnecting
         }

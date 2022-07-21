@@ -12,10 +12,18 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
 //class ClubsViewModelFlow : ViewModel() {
-class MyViewModel @OptIn(ExperimentalCoroutinesApi::class)
+class MyViewModel
 internal constructor(
     private val urLsRepository: URLsRepository
 ) : ViewModel() {
+
+    private val _spinner = MutableLiveData(false)
+
+    /**
+     * Show a loading spinner if true
+     */
+    val spinner: LiveData<Boolean>
+        get() = _spinner
 
 //    // Uses prefix "_" as it's the naming convention used in backing properties.
 //    // We use LazyThreadSafetyMode.NONE to avoid using thread synchronization because we are using this only from the MainThread.
@@ -85,6 +93,7 @@ internal constructor(
                 // Here you can not call _clubs.value = clubsRepository.getAllClubs()
                 // because the lazy initialization did not finish yet and you would actually recall this function again.
 
+                _spinner.value = true
                 // To avoid saving the resulting array in a variable we work with the retrofit response instead.
                 // TODO: Ideally we shouldn't know anything about Retrofit here, but just for simplicity we do. There is a todo in the retrofit api class to address this.
                 val apiResponse = urLsRepository.shortenURL(urlToShorten)
@@ -111,8 +120,11 @@ internal constructor(
                 // viewModelScope uses the MainThread Dispatcher by default so we don't need to use "withContext(Dispatchers.Main)"
                 // to access the UI.
             } catch (ex: Exception) {
+                _spinner.value = false
                 // TODO: extend/improve error handling: check internet connection, listen to connection state changes and automatically retry, etc.
 //                _eventNetworkError.value = true
+            } finally {
+                _spinner.value = false
             }
         }
     }
