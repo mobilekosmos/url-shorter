@@ -9,4 +9,5 @@ All written by me to simply demo my knowledge.
 <img src="/screenshots/main_welcome.png" width="150"> <img src="/screenshots/main_screenshot.png" width="150">
 
 *The used API to shorten URLs is a free one and sometimes it won't react as fast, this is not up to the implementation itself, just the server being slow.
+
 *The Edge-to-edge design may not look correct on some older Samsung devices which present a bug, and maybe also on other ones not seen yet.
